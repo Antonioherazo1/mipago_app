@@ -8,8 +8,9 @@ class LogoNameWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 350.0,
       height: 70.0,
-      width: double.infinity,
+      //width: double.infinity,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.black),
         borderRadius: BorderRadius.circular(10.0),

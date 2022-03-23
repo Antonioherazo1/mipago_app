@@ -9,8 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:mi_pago/models/itemData.dart';
 import 'package:mi_pago/widgets/dropDownCiclopago.dart';
 
-class HomeScreem extends StatelessWidget {
+class HomeScreem extends StatefulWidget {
 
+  @override
+  State<HomeScreem> createState() => _HomeScreemState();
+}
+
+class _HomeScreemState extends State<HomeScreem> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -22,6 +27,7 @@ class HomeScreem extends StatelessWidget {
       home: Scaffold(
           resizeToAvoidBottomInset:false,
           appBar: AppBar(
+            centerTitle: true,
             title: Text(
               'Home',
               style: TextStyle(fontFamily: 'Dalgona'),
@@ -34,9 +40,11 @@ class HomeScreem extends StatelessWidget {
               child: Column(
                 children: [
                   LogoNameWidget(),
+                  //Text('${Provider.of<ItemData>(context).getValorUnitarioSF()}'),
                   ValorUnitario(
                       initValue:
                           '${Provider.of<ItemData>(context).valorUnitario}'),
+                          //'${Provider.of<ItemData>(context).getValorUnitarioSF()}'),
                   DroppDownCiclopago(),
                   Container(
                     height: 100.0,

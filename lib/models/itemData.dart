@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:mi_pago/models/itemModel.dart';
 import 'package:intl/intl.dart';
 import 'package:mi_pago/models/monthDataModel.dart';
-import 'dart:convert';
 import 'package:mi_pago/models/chartItemModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ItemData extends ChangeNotifier {
   int horasLaboralesDiarias = 8;
@@ -81,7 +81,7 @@ class ItemData extends ChangeNotifier {
   }
 
   void updateValorUnit(int valorUnitario) {
-    this.valorUnitario = valorUnitario;
+    saveValorUnitarioSF(valorUnitario);
     incomeList.forEach((income) {
       int producto = (valorUnitario * income.values * income.factor).toInt();
       income.total = producto;
@@ -92,6 +92,32 @@ class ItemData extends ChangeNotifier {
       egress.total = producto;
       updateTotal();
     });
+    saveValorUnitarioSF(valorUnitario);
+  }
+
+  void saveValorUnitarioSF(int value ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('valorUnitario', value);
+    //int valorUnitario = prefs.getInt('valorUnitario');
+    //this.valorUnitario = valorUnitario;
+    this.valorUnitario = value;
+  }
+   getValorUnitarioSF () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int valorUnitario = prefs.getInt('valorUnitario');
+    this.valorUnitario = valorUnitario;
+  }
+  void saveHorasPorCicloSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('frecPago', this.frecPago);
+    int frecPago = prefs.getInt('frecPago');
+  }
+  getHorasPorCicloSF () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String frecPago = prefs.getString('frecPago');
+    addFixedItem(frecPago);
+    this.frecPago = frecPago;
+
   }
 
   void updateTotal() {
@@ -123,7 +149,6 @@ class ItemData extends ChangeNotifier {
     ciclosDataList.forEach((ciclo) {
       sumMonthEgress += ciclo.sumEgress;
     });
-
     notifyListeners();
   }
 
@@ -149,9 +174,6 @@ class ItemData extends ChangeNotifier {
     //-------------------------
 
     ciclosDataList.add(cicleData);
-
-
-
 
     //reiniciar valores de items de cantidad variable a cero
     incomeList.forEach((item) {
@@ -186,4 +208,45 @@ class ItemData extends ChangeNotifier {
 
     ciclosDataList.clear();
   }
+
+
+  String addFixedItem( String newValue ) {
+    String valueChoosen;
+    String descripFactor = 'Horas\n$newValue${'es'}';
+    frecPago = newValue;
+
+    newValue == 'Semanal'
+        ? horasPorCiclo = 56
+        : newValue == 'Quincenal'
+        ? horasPorCiclo = 112
+        : horasPorCiclo = 224;
+    saveHorasPorCicloSF();
+    //---------
+    valueChoosen = newValue;
+    if (ingresoFijoExist == false) {
+      final fixIncome = ItemModel(
+          itemType: 1,
+          //Ingreso
+          name: 'Ingreso Fijo',
+          values: horasPorCiclo,
+          factor: 1.0,
+          middleItemDescrip: descripFactor,
+          itemSubtypeInt: 1,
+          // Cantidad Fija
+          fixIncome: true);
+      indexIngFijo = incomeList.length;
+      ingresoFijoExist = true;
+      incomeList.add(fixIncome);
+    } else {
+      int index = indexIngFijo;
+      incomeList[index].values = horasPorCiclo;
+      incomeList[index].middleItemDescrip = descripFactor;
+      updateItem();
+    }
+    // Incvocamos la funcion upDateItem de Provider para actualizar cambio de cicloPago
+    updateItem();
+    updateTotal();
+    return valueChoosen;
+  }
 }
+

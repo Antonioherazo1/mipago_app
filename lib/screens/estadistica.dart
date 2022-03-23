@@ -188,15 +188,6 @@ class __dropdownGraphicsState extends State<_dropdownGraphics> {
       'Pago Total'
     ];
 
-    // List<OptionDdownChartModel> itemDdownChartList = [
-    //   OptionDdownChartModel(value: 'sumIncome', name: 'Total Ingresos'),
-    //   OptionDdownChartModel(value: 'totalPago', name: 'Total Descuentos'),
-    //   OptionDdownChartModel(value: 'sumEgress', name: 'Pago Total'),
-    // ];
-    // List<Map<String, dynamic>> itemDdownChartListMap = [];
-    // itemDdownChartList
-    //     .forEach((element) => itemDdownChartListMap.add(element.toMap()));
-
     return (Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [

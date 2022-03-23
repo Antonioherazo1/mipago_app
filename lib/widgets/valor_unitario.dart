@@ -12,14 +12,21 @@ class ValorUnitario extends StatefulWidget {
 }
 
 class _ValorUnitarioState extends State<ValorUnitario> {
+
+
   var txtController = TextEditingController();
   var controller = new MaskedTextController(mask: '000.000.000-00');
+
+  loadValorUnitario() async {
+    //txtController.text = widget.initValue;
+    //txtController.text = '${Provider.of<ItemData>(context, listen: false).valorUnitario}';
+  }
 
   @override
   void initState() {
     super.initState();
-
-    txtController.text = widget.initValue;
+    txtController.text = Provider.of<ItemData>(context, listen: false).valorUnitario.toString() ?? '0';
+    //'${Provider.of<ItemData>(context, listen: false).valorUnitario}';
   }
 
   @override
@@ -33,11 +40,12 @@ class _ValorUnitarioState extends State<ValorUnitario> {
           width: 100.0,
           height: 50.0,
           child: TextField(
-            // controller: controller,
             controller: txtController,
             style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             keyboardType: TextInputType.number,
             onChanged: (value) {
+              print('valor inicialll: ${widget.initValue}');
+              //print('valor inicial: ${int.parse(widget.initValue)}');
               Provider.of<ItemData>(context, listen: false)
                   .updateValorUnit(int.parse(value));
             },

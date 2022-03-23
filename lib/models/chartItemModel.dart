@@ -1,4 +1,4 @@
-class ChartItem {
+ class ChartItem {
   int id;
   int value;
   int consecutive;
