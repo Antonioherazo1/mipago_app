@@ -32,6 +32,9 @@ class ItemList extends StatelessWidget {
                                 initValue:
                                     '${itemData.incomeList[index].values}',
                                 item: itemData.incomeList[index],
+                                closebuttonCallBack: (){
+                                  itemData.removeIncomeItem(index);
+                                },
                                 textFieldCallback: (newValue) {
                                   itemData.incomeList[index].values =
                                       int.parse(newValue);
@@ -41,7 +44,12 @@ class ItemList extends StatelessWidget {
                                 initValue:
                                     '${itemData.egressList[index].values}',
                                 item: itemData.egressList[index],
-                                textFieldCallback: () {});
+                                textFieldCallback: () {},
+                                closebuttonCallBack: (){
+                                  itemData.removeEgressItem(index);
+                                  
+                                },
+                              );
                       })),
             ],
           ),

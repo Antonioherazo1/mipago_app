@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:mi_pago/models/cicloDataModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -94,6 +93,7 @@ class ItemData extends ChangeNotifier {
       egress.total = producto;
       updateTotal();
     });
+    updateItem();
     saveValorUnitarioSF(valorUnitario);
   }
 
@@ -103,6 +103,7 @@ class ItemData extends ChangeNotifier {
     //int valorUnitario = prefs.getInt('valorUnitario');
     //this.valorUnitario = valorUnitario;
     this.valorUnitario = value;
+    notifyListeners();
   }
    getValorUnitarioSF () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -112,7 +113,9 @@ class ItemData extends ChangeNotifier {
   void saveHorasPorCicloSF() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('frecPago', this.frecPago);
-    int frecPago = prefs.getInt('frecPago');
+    //int frecPago = prefs.getInt('frecPago');
+    saveItemList();
+    notifyListeners();
   }
   getHorasPorCicloSF () async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -128,12 +131,6 @@ class ItemData extends ChangeNotifier {
     egressList.forEach((element) => egressListMap.add(element.toMap()));
     prefs.setString('incomeListJson', jsonEncode(incomeListMap));
     prefs.setString('egressListJson', jsonEncode(egressListMap));
-    //-------------------------------------------------------
-    String incomeListJson = prefs.getString('incomeListJson');
-    String egressListJson = prefs.getString('egressListJson');
-    print('IncomeList guardado:\n$incomeListJson');
-    print('EgressList guardado:\n$egressListJson');
-
 
   }
 
@@ -275,5 +272,25 @@ class ItemData extends ChangeNotifier {
     updateTotal();
     return valueChoosen;
   }
+
+  void removeIncomeItem(index){
+    incomeList.removeAt(index);
+    saveItemList();
+    updateItem();
+    updateTotal();
+    notifyListeners();
+
+  }
+
+  void removeEgressItem(index){
+    egressList.removeAt(index);
+    saveItemList();
+    updateItem();
+    updateTotal();
+    notifyListeners();
+  }
+
+
+
 }
 

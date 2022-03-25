@@ -44,8 +44,6 @@ class _ValorUnitarioState extends State<ValorUnitario> {
             style: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
             keyboardType: TextInputType.number,
             onChanged: (value) {
-              print('valor inicialll: ${widget.initValue}');
-              //print('valor inicial: ${int.parse(widget.initValue)}');
               Provider.of<ItemData>(context, listen: false)
                   .updateValorUnit(int.parse(value));
             },

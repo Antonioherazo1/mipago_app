@@ -18,17 +18,6 @@ class ItemModel {
       this.total,
       this.fixIncome});
 
-  /*Map toJson() => {
-        'itemType': itemType,
-        'itemSubtypeInt': itemSubtypeInt,
-        'name': name,
-        'factor': factor,
-        'middleItemDescrip': middleItemDescrip,
-        'value': values,
-        'total': total,
-        'fixIncome': fixIncome
-      };*/
-
 
   ItemModel.toItemModel(Map<String, dynamic> map)
       : itemType = map['itemType'],

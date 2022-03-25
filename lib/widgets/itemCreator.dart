@@ -3,11 +3,13 @@ import 'package:mi_pago/models/itemModel.dart';
 
 
 class ItemCreator extends StatefulWidget {
+  final String initValue;
   final ItemModel item;
   final Function textFieldCallback;
-  final String initValue;
+  final Function closebuttonCallBack;
 
-  ItemCreator({this.item, this.textFieldCallback, this.initValue});
+
+  ItemCreator({this.item, this.textFieldCallback, this.initValue, this.closebuttonCallBack});
 
   @override
   _ItemCreatorState createState() => _ItemCreatorState();
@@ -43,33 +45,40 @@ class _ItemCreatorState extends State<ItemCreator> {
                 width: 2.0,
               ),
             ),
-            child: Column(
-              children: [
-                Center(
-                  child: Text(
-                    '${widget.item.name}'.toUpperCase(),
-                    style: TextStyle(
-                        color: Colors.black87,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0),
-                  ),
-                ),
-                Center(
-                  child: Text(
-                    widget.item.itemType == 1 // si es un ingreso
-                      ? widget.item.fixIncome == true
-                        ? 'Cantidad no Variable'
-                        : 'Cantidad Variable' // escriba esto
-                      : widget.item.itemSubtypeInt == 1 // si no es un ingreso y es subtype 1
-                        ? 'Cantidad no variable' // escriba esto
-                        : widget.item.itemSubtypeInt == 2 // o si es un subtype 2
-                          ? 'Fracción Ingresos del Ciclo' // escriba esto
-                          : 'Fracción de Ingresos Mensuales Exedidos' // y si es un Subtype 3 escriba esto otro                            
+            child:
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      flex: 8,
+                      child: Column(
+                        children: [
+                          Center(
+                            child: Text(
+                              '${widget.item.name}'.toUpperCase(),
+                              style: TextStyle(
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0),
+                            ),
+                          ),
+                          Center(
+                            child: Container(
+                                child: Text('${DescripItem(widget.item.itemType, widget.item.itemSubtypeInt, widget.item.fixIncome)}')),
+                          )
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                        flex:2,
+                        child: widget.item.fixIncome==false
+                                ? IconButton(onPressed: widget.closebuttonCallBack, icon: Icon(Icons.delete_outline))
+                                : Icon(Icons.tag_faces)
                     )
-                )
-              ],
+
+                  ],
+                ),
             ),
-          ),
           // Segundo Recuadro Amarillo con los Datos y valores del ITEM
           Container(
             height: 70.0,
@@ -103,6 +112,22 @@ class _ItemCreatorState extends State<ItemCreator> {
       ),
     );
   }
+}
+
+// esta funcion establece que tipo de descripcion debe llevar el item de acuerdo a su tipo y suptipo
+String DescripItem(int itemType, int itemSubtypeInt, bool fixIncome ){
+
+  String Description='';
+  itemType == 1 // si es un ingreso
+      ? fixIncome == true
+        ? Description='Cantidad no Variable'
+        : Description='Cantidad Variable' // escriba esto
+      : itemSubtypeInt == 1 // si no es un ingreso y es subtype 1
+        ? Description='Cantidad no variable' // escriba esto
+        : itemSubtypeInt == 2 // o si es un subtype 2
+          ? Description='Fracción Ingresos del Ciclo' // escriba esto
+          : Description='Fracción de Ingresos Mensuales Exedidos';
+  return Description;
 }
 
 class TextFieldItem extends StatelessWidget {
