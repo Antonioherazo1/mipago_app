@@ -166,7 +166,8 @@ class _AddIncomeScreenState extends State<AddItemScreen> {
                   widget.tipo == 'EGRESO'
                       ? providerData.addEgressItem(newItem)
                       : providerData.addIncomeItem(newItem);
-                  providerData.updateTotal(); //Actualizar total pago
+                  providerData.updateTotal();
+                  providerData.saveItemList();//Actualizar total pago
                   Navigator.pop(context);
                 },
               ),

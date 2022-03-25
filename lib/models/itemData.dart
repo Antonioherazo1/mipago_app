@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:mi_pago/models/cicloDataModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -24,8 +26,8 @@ class ItemData extends ChangeNotifier {
   int indexIngFijo = 0;
   String subTypeItem = '';
 
-  List<ItemModel> incomeList = [];
-  List<ItemModel> egressList = [];
+  List<dynamic> incomeList = [];
+  List<dynamic> egressList = [];
   List<CicloDataModel> ciclosDataList = [];
   List<MonthDataModel> monthDataList = [];
   List<ChartItem> charItemsList = [];
@@ -117,7 +119,32 @@ class ItemData extends ChangeNotifier {
     String frecPago = prefs.getString('frecPago');
     addFixedItem(frecPago);
     this.frecPago = frecPago;
+  }
+  void saveItemList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> incomeListMap = [];
+    List<Map<String, dynamic>> egressListMap = [];
+    incomeList.forEach((element) => incomeListMap.add(element.toMap()));
+    egressList.forEach((element) => egressListMap.add(element.toMap()));
+    prefs.setString('incomeListJson', jsonEncode(incomeListMap));
+    prefs.setString('egressListJson', jsonEncode(egressListMap));
+    //-------------------------------------------------------
+    String incomeListJson = prefs.getString('incomeListJson');
+    String egressListJson = prefs.getString('egressListJson');
+    print('IncomeList guardado:\n$incomeListJson');
+    print('EgressList guardado:\n$egressListJson');
 
+
+  }
+
+  void getItemList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String incomeListJson = prefs.getString('incomeListJson');
+    String egressListJson = prefs.getString('egressListJson');
+    List incomeListMap = json.decode(incomeListJson).map((item) => ItemModel.toItemModel(item)).toList();
+    List egressListMap = json.decode(egressListJson).map((item) => ItemModel.toItemModel(item)).toList();
+    incomeList = incomeListMap;
+    egressList = egressListMap;
   }
 
   void updateTotal() {

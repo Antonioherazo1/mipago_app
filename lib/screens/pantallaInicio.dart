@@ -20,6 +20,8 @@ class _PantallaInicioState extends State<PantallaInicio> {
     super.initState();
     Provider.of<ItemData>(context, listen: false).getValorUnitarioSF();
     Provider.of<ItemData>(context, listen: false).getHorasPorCicloSF();
+    Provider.of<ItemData>(context, listen: false).getItemList();
+
 
     Future.delayed(const Duration(milliseconds: 3000), () {
       Navigator.push(

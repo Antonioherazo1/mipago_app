@@ -18,7 +18,7 @@ class ItemModel {
       this.total,
       this.fixIncome});
 
-  Map toJson() => {
+  /*Map toJson() => {
         'itemType': itemType,
         'itemSubtypeInt': itemSubtypeInt,
         'name': name,
@@ -27,7 +27,18 @@ class ItemModel {
         'value': values,
         'total': total,
         'fixIncome': fixIncome
-      };
+      };*/
+
+
+  ItemModel.toItemModel(Map<String, dynamic> map)
+      : itemType = map['itemType'],
+        itemSubtypeInt= map['itemSubtypeInt'],
+        name= map['name'],
+        factor= map['factor'],
+        middleItemDescrip= map['middleItemDescrip'],
+        values= map['values'],
+        total= map['total'],
+        fixIncome= map['fixIncome'];
 
   Map<String, dynamic> toMap()=>{
         'itemType': itemType,
@@ -35,7 +46,7 @@ class ItemModel {
         'name': name,
         'factor': factor,
         'middleItemDescrip': middleItemDescrip,
-        'value': values,
+        'values': values,
         'total': total,
         'fixIncome': fixIncome
     };
