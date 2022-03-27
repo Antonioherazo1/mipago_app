@@ -38,7 +38,7 @@ class _GraficChartState extends State<GraficChart> {
   Widget build(BuildContext context) {
     return Consumer<ItemData>(
       builder: (context, itemData, child) {
-        List<ChartItem> list = itemData.charItemsList;
+        List<dynamic> list = itemData.charItemsList;
         datas =
             List<double>.generate(list.length, (i) => list[i].value.toDouble());
 

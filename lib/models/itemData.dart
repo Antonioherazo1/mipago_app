@@ -47,7 +47,7 @@ class ItemData extends ChangeNotifier {
       item.total = (item.values * item.factor * valorUnitario).toInt();
     });
 
-    updateTotal();
+    //updateTotal();
     //Actualizar todos Item de egresos
     egressList.forEach(
       (egressItem) {
@@ -97,52 +97,6 @@ class ItemData extends ChangeNotifier {
     saveValorUnitarioSF(valorUnitario);
   }
 
-  void saveValorUnitarioSF(int value ) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt('valorUnitario', value);
-    //int valorUnitario = prefs.getInt('valorUnitario');
-    //this.valorUnitario = valorUnitario;
-    this.valorUnitario = value;
-    notifyListeners();
-  }
-   getValorUnitarioSF () async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    int valorUnitario = prefs.getInt('valorUnitario');
-    this.valorUnitario = valorUnitario;
-  }
-  void saveHorasPorCicloSF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('frecPago', this.frecPago);
-    //int frecPago = prefs.getInt('frecPago');
-    saveItemList();
-    notifyListeners();
-  }
-  getHorasPorCicloSF () async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String frecPago = prefs.getString('frecPago');
-    addFixedItem(frecPago);
-    this.frecPago = frecPago;
-  }
-  void saveItemList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<Map<String, dynamic>> incomeListMap = [];
-    List<Map<String, dynamic>> egressListMap = [];
-    incomeList.forEach((element) => incomeListMap.add(element.toMap()));
-    egressList.forEach((element) => egressListMap.add(element.toMap()));
-    prefs.setString('incomeListJson', jsonEncode(incomeListMap));
-    prefs.setString('egressListJson', jsonEncode(egressListMap));
-
-  }
-
-  void getItemList() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String incomeListJson = prefs.getString('incomeListJson');
-    String egressListJson = prefs.getString('egressListJson');
-    List incomeListMap = json.decode(incomeListJson).map((item) => ItemModel.toItemModel(item)).toList();
-    List egressListMap = json.decode(egressListJson).map((item) => ItemModel.toItemModel(item)).toList();
-    incomeList = incomeListMap;
-    egressList = egressListMap;
-  }
 
   void updateTotal() {
     sumIncome = 0;
@@ -204,16 +158,18 @@ class ItemData extends ChangeNotifier {
       int n;
       item.fixIncome == false ? item.values = 0 : n = 0;
     });
+    saveCicle_SF();
     updateItem();
+  }
+  void notifylisteners(){
+    notifyListeners();
   }
 
   void saveMes() {
     var now = DateTime.now();
     var yearMonthFormater = DateFormat('yMMMM');
     String yearMonth = yearMonthFormater.format(now);
-
     //se crea un objeto de tipo MonthDataModel y lo alimentamos con valores
-
     List<Map<String, dynamic>> ciclosDataListMap = [];
     ciclosDataList.forEach((element) => ciclosDataListMap.add(element.toMap()));
 
@@ -229,7 +185,6 @@ class ItemData extends ChangeNotifier {
     monthDataList.add(monthData);
 
     updateTotal();
-
     ciclosDataList.clear();
   }
 
@@ -265,30 +220,103 @@ class ItemData extends ChangeNotifier {
       int index = indexIngFijo;
       incomeList[index].values = horasPorCiclo;
       incomeList[index].middleItemDescrip = descripFactor;
-      updateItem();
+      //updateItem();
     }
     // Incvocamos la funcion upDateItem de Provider para actualizar cambio de cicloPago
     updateItem();
-    updateTotal();
+    //updateTotal();
     return valueChoosen;
   }
 
+  //////// ---------REMOVE ITEMS---------- ////////
+
   void removeIncomeItem(index){
     incomeList.removeAt(index);
-    saveItemList();
+    saveItemList_SF();
     updateItem();
-    updateTotal();
-    notifyListeners();
-
+    //updateTotal();
+    //notifyListeners();
   }
 
   void removeEgressItem(index){
     egressList.removeAt(index);
-    saveItemList();
+    saveItemList_SF();
     updateItem();
-    updateTotal();
+    //updateTotal();
+    //notifyListeners();
+  }
+
+//////// ---------SHARED-PREFERENCE---------- ////////
+
+
+  void saveValorUnitarioSF(int value ) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('valorUnitario', value);
+    //int valorUnitario = prefs.getInt('valorUnitario');
+    //this.valorUnitario = valorUnitario;
+    this.valorUnitario = value;
     notifyListeners();
   }
+  getValorUnitarioSF () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int valorUnitario = prefs.getInt('valorUnitario');
+    this.valorUnitario = valorUnitario;
+  }
+  void saveHorasPorCicloSF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('frecPago', this.frecPago);
+    //int frecPago = prefs.getInt('frecPago');
+    saveItemList_SF();
+    notifyListeners();
+  }
+  getHorasPorCicloSF () async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String frecPago = prefs.getString('frecPago');
+    addFixedItem(frecPago);
+    this.frecPago = frecPago;
+  }
+  void saveItemList_SF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> incomeListMap = [];
+    List<Map<String, dynamic>> egressListMap = [];
+    incomeList.forEach((element) => incomeListMap.add(element.toMap()));
+    egressList.forEach((element) => egressListMap.add(element.toMap()));
+    prefs.setString('incomeListJson', jsonEncode(incomeListMap));
+    prefs.setString('egressListJson', jsonEncode(egressListMap));
+  }
+
+  void getItemList_SF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String incomeListJson = prefs.getString('incomeListJson');
+    String egressListJson = prefs.getString('egressListJson');
+    List incomeListMap = json.decode(incomeListJson).map((item) => ItemModel.toItemModel(item)).toList();
+    List egressListMap = json.decode(egressListJson).map((item) => ItemModel.toItemModel(item)).toList();
+    incomeList = incomeListMap;
+    egressList = egressListMap;
+  }
+
+  // -------guardar ciclos en SharedPreferences
+
+  void saveCicle_SF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<Map<String, dynamic>> ciclesListMap = [];
+    ciclosDataList.forEach((element) => ciclesListMap.add(element.toMap()));
+    prefs.setString('ciclesListJson', jsonEncode(ciclesListMap));
+    //-----------------------------------------------------
+    String ciclesListJson = prefs.getString('ciclesListJson');
+    print('ciclos guardados$ciclesListJson');
+
+  }
+
+  void getCicle_SF() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String ciclesListJson = prefs.getString('ciclesListJson');
+    List ciclesListMap = json.decode(ciclesListJson).map((item) => ItemModel.toItemModel(item)).toList();
+    ciclosDataList = ciclesListMap;
+  }
+
+
+
 
 
 

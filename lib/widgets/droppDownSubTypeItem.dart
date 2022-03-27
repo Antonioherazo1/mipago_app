@@ -4,6 +4,9 @@ import 'package:mi_pago/models/itemData.dart';
 
 class DroppDownSubTypeItem extends StatefulWidget {
 
+  //final Function updateScreen;
+  //DroppDownSubTypeItem({this.updateScreen});
+
   @override
   _DroppDownSubTypeItemState createState() => _DroppDownSubTypeItemState();
 }
@@ -43,8 +46,10 @@ class _DroppDownSubTypeItemState extends State<DroppDownSubTypeItem> {
             }).toList(),
             //---------------------
             onChanged: (newValue) {
+              //widget.updateScreen();
               setState(() {
                 Provider.of<ItemData>(context, listen: false).subTypeItem = newValue;
+                Provider.of<ItemData>(context, listen: false).notifylisteners();
                 valueChoosen = newValue;
               });
             },

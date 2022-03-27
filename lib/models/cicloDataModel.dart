@@ -18,16 +18,16 @@ class CicloDataModel {
          this.sumEgress,
          this.id});
 
-  Map toJson() => {
-        'incomeList': incomeList,
-        'egressList': egressList,
-        'date': date,
-        'totalPago': totalPago,
-        'dateString': dateString,
-        'sumIncome': sumIncome,
-        'sumEgress': sumEgress,
-        'id': id
-      };
+  CicloDataModel.toItemModel(Map<String, dynamic> map)
+      : incomeList = map['incomeList'],
+        egressList= map['egressList'],
+        date= map['date'],
+        totalPago= map['totalPago'],
+        dateString= map['dateString'],
+        sumIncome= map['sumIncome'],
+        sumEgress= map['sumEgress'],
+        id= map['id'];
+
 
   Map<String, dynamic> toMap() => {
         'incomeList': incomeList,

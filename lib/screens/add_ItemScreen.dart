@@ -28,6 +28,11 @@ class _AddIncomeScreenState extends State<AddItemScreen> {
   String newNameItem = 'Default';
   String middleItemDescrip = '';
 
+  Function updateScreen(){
+    setState(() {
+
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -167,7 +172,7 @@ class _AddIncomeScreenState extends State<AddItemScreen> {
                       ? providerData.addEgressItem(newItem)
                       : providerData.addIncomeItem(newItem);
                   providerData.updateTotal();
-                  providerData.saveItemList();//Actualizar total pago
+                  providerData.saveItemList_SF();//Actualizar total pago
                   Navigator.pop(context);
                 },
               ),
