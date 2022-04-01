@@ -140,7 +140,7 @@ class _HomeScreemState extends State<HomeScreem> {
                       ),
                     ),
                   ),
-                  Container(
+                  /*Container(
                     height: 100.0,
                     width: 350.0,
                     margin: EdgeInsets.all(20.0),
@@ -168,7 +168,7 @@ class _HomeScreemState extends State<HomeScreem> {
                         ],
                       ),
                     ),
-                  )
+                  )*/
                 ],
               ),
             ),

@@ -39,7 +39,8 @@ class ItemList extends StatelessWidget {
                                   itemData.incomeList[index].values =
                                       int.parse(newValue);
                                   itemData.updateItem();                                  
-                                })
+                                }
+                               )
                             : ItemCreator(
                                 initValue:
                                     '${itemData.egressList[index].values}',
@@ -47,7 +48,6 @@ class ItemList extends StatelessWidget {
                                 textFieldCallback: () {},
                                 closebuttonCallBack: (){
                                   itemData.removeEgressItem(index);
-                                  
                                 },
                               );
                       })),

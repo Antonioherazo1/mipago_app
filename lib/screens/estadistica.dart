@@ -155,16 +155,8 @@ class _EstadisticaState extends State<Estadistica> {
                       ],
                     ),
               SizedBox(height: 20),
-              Text(
-                'GraphicChart',
-                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 20),
-              _dropdownGraphics(),
-              Container(
-                height: 250,
-                child: GraficChart(),
-              ),
+              //Text( 'GraphicChart',style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),),
+              //SizedBox(height: 20), _dropdownGraphics(), Container(height: 250,child: GraficChart()),
             ],
           ),
         ),

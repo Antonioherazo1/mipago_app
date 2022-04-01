@@ -6,7 +6,7 @@ class ItemCreator extends StatefulWidget {
   final String initValue;
   final ItemModel item;
   final Function textFieldCallback;
-  final Function closebuttonCallBack;
+  final Function closebuttonCallBack ;
 
 
   ItemCreator({this.item, this.textFieldCallback, this.initValue, this.closebuttonCallBack});

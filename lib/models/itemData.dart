@@ -27,8 +27,10 @@ class ItemData extends ChangeNotifier {
 
   List<dynamic> incomeList = [];
   List<dynamic> egressList = [];
-  List<CicloDataModel> ciclosDataList = [];
-  List<MonthDataModel> monthDataList = [];
+  //List<CicloDataModel> ciclosDataList = [];
+  //List<MonthDataModel> monthDataList = [];
+  List<dynamic> ciclosDataList = [];
+  List<dynamic> monthDataList = [];
   List<ChartItem> charItemsList = [];
 
   void addIncomeItem(ItemModel newItem) {
